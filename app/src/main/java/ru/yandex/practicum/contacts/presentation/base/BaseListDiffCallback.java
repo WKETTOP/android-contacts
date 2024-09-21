@@ -5,28 +5,24 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.DiffUtil.ItemCallback;
 
+import ru.yandex.practicum.contacts.presentation.sort.SortTypeUI;
 
-public class BaseListDiffCallback<S extends ListDiffInterface<S>> extends ItemCallback<S> implements ListDiffInterface<S> {
+
+public class BaseListDiffCallback<T extends ListDiffInterface<T>> extends DiffUtil.ItemCallback<T> {
+
+   @Override
+    public boolean areItemsTheSame(@NonNull T oldItem, @NonNull T newItem) {
+        return oldItem.theSameAs(newItem);
+   }
 
     @Override
-    public boolean areItemsTheSame(@NonNull S oldItem, @NonNull S newItem) {
-        return false;
-    }
-
-    @Override
-    public boolean areContentsTheSame(@NonNull S oldItem, @NonNull S newItem) {
+    public boolean areContentsTheSame(@NonNull T oldItem, @NonNull T newItem) {
         return oldItem.equals(newItem);
     }
 
     @Nullable
     @Override
-    public Object getChangePayload(@NonNull S oldItem, @NonNull S newItem) {
+    public Object getChangePayload(@NonNull T oldItem, @NonNull T newItem) {
         return newItem;
     }
-
-    @Override
-    public boolean theSameAs(S s) {
-        return this.hashCode() == s.hashCode();
-    }
-
 }
